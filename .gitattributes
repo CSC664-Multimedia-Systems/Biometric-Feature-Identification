@@ -24,6 +24,11 @@
 *.exe binary
 *.jpg binary
 *.pdf binary
-*.png binary
+*.png binar
 *.xlsx binary
+*.mp4 binary
 *.m filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.DS_Store filter=lfs diff=lfs merge=lfs -text
+*.docx filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text

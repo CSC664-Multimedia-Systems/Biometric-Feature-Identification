@@ -1,0 +1,6 @@
+test1 = imread('firsttest.png');
+test2 = imread('secondtest.png');
+
+test1 = img
+
+result = test1 - test2;

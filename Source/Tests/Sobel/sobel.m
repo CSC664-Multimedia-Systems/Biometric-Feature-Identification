@@ -15,19 +15,13 @@ function result = sobel(image)
     x_sobel = conv2(double(image), x_kernel, "same");
     y_sobel = conv2(double(image), y_kernel, "same");
 
+    % Sum the squares
     sum_sobel = x_sobel.^2 + y_sobel.^2;
     magnitude = sqrt(sum_sobel);
+    max_mag = max(magnitude(:));
 
-%     mask = zeros(image_height, image_width);
-%     mask = uint8(mask);
-%     for row = 1:image_height
-%         for col = 1:image_width
-%             if magnitude(row,col) > threshold
-%                 mask(row,col) = 255;
-%             end
-%         end
-%     end
-%     result = mask;
-     result = magnitude;
-%     result = int32(result);
+    % Usually the values can go very high so we will normalize it
+    normalized = magnitude / max_mag;
+    result = normalized * 255;
+    result = uint8(result);
 end

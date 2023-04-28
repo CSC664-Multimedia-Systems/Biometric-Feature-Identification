@@ -1,4 +1,4 @@
-image = imread("../Data/frames_grey/0010.png");
+image = imread("../Data/frames_grey/0020.png");
 [image_height, image_width] = size(image);
 
 mask = zeros(image_height, image_width, "uint8");
@@ -23,3 +23,5 @@ for row = 1:image_height
         end
     end
 end
+
+imshow(mask);

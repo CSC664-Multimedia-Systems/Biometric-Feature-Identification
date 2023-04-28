@@ -1,0 +1,1 @@
+edge_linking_test = edge_linking(mask);

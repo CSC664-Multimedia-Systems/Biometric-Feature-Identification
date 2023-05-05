@@ -25,6 +25,11 @@ function buffer = regions(image)
                 if b_left ~= b_up
                     larger_label = max(b_left, b_up);
                     smaller_label = min(b_left, b_up);
+                    if(smaller_label == 0) % Edge case
+                        buffer(row,col) = b_up;
+%                         count = count + 1;
+                        continue;
+                    end
                     equivalence_table(larger_label) = smaller_label;
                 end
                 buffer(row,col) = min(b_up, b_left);

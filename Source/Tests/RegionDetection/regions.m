@@ -1,4 +1,6 @@
 function buffer = regions(image)
+    % Bug: Accurate for the most part
+    % However, some regions are separate when it should be connected
     [image_height, image_width] = size(image);
     buffer = zeros(image_height, image_width);
 

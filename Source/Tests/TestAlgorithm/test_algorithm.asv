@@ -1,4 +1,5 @@
 function [precision,recall, labelImg] = test_algorithm(heads_mask, relevant_mask)
+    addpath("/home/rainbow/Desktop/Biometric-Feature-Identification/Source");
     [image_height, image_width] = size(heads_mask);
 
     % 4 Connectivity Region Processing
@@ -19,7 +20,10 @@ function [precision,recall, labelImg] = test_algorithm(heads_mask, relevant_mask
             if heads_mask(row, col) > 0
                 retrieved_total = retrieved_total + 1;
             end
-            if heads_mask(row, col) > 0 && relevant_mask(row, col) > 0 && region_map(labelImg(row, col)) == true
+            if heads_mask(row,col) > 0 && relevant_mask(row,col) > 0 
+                fprintf("regionmap: %d\n", region_map(relevant_mask(row, col)) );
+            end
+            if heads_mask(row, col) > 0 && relevant_mask(row, col) > 0 && region_map(relevant_mask(row, col)) == true
                 retrieved = retrieved + 1;
                 region_map(relevant_mask(row, col)) = false;
             end
@@ -29,12 +33,10 @@ function [precision,recall, labelImg] = test_algorithm(heads_mask, relevant_mask
     recall = retrieved / relevant_total;
     precision = retrieved / retrieved_total;
 
-%     data = [retrieved, retrieved_total, relevant_total];
-
-%     fprintf('Debug\n');
-%     fprintf('retrieved: %f\n', retrieved);
-%     fprintf('relevant_total %f\n', relevant_total);
-%     fprintf('retrieved_total %f\n', retrieved_total);
+    fprintf('Debug\n');
+    fprintf('retrieved: %f\n', retrieved);
+    fprintf('relevant_total %f\n', relevant_total);
+    fprintf('retrieved_total %f\n', retrieved_total);
 %     fprintf('number of regions: %d\n', numRegions);
 %     fprintf('recall: %f\n', recall);
 %     fprintf('precision: %f\n', precision);

@@ -87,5 +87,3 @@ fprintf("(Mean) Recall: %.2f%%\n", mean_recall * 100);
 fprintf("(Standard Deviation) Recall: %.2f%%\n", std_recall * 100);
 
 % fprintf("%.2f\n%.2f\n", sample_data(i,1)/sample_data(i,2), sample_data(i,1)/sample_data(i,3));
-
-full_test(@naive_detection_algorithm);

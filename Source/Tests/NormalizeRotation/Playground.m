@@ -17,9 +17,18 @@ for row = 1:rows
     end
 end
 
+new_matrix(:,2) = [];
+
+mean_region = mean(new_matrix);
+covariance_matrix = cov(new_matrix);
+[T,S,D] = pca(covariance_matrix, 2);
+
+slope = T(2)/T(1);
+
+
 %reg = bwlabel(image);
-reg = regionprops(image, 'all');
+%reg = regionprops(image, 'all');
 
-[T,S,D] = pca(new_matrix, 1);
-
-reconstruction = T * S * D;
+% [T,S,D] = pca(new_matrix, 1);
+% 
+% reconstruction = T * S * D;

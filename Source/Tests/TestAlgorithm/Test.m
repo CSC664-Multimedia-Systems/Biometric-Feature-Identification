@@ -1,6 +1,6 @@
-source_image_path = "../../../Data/frames_grey/";
+source_image_path = "../Data/frames_grey/";
 source_image_extension = ".png";
-relevant_data_root_path = "../../../Relevant_Data/";
+relevant_data_root_path = "../Relevant_Data/";
 relevant_data_extension = ".mat";
 
 test_cases = ["0001", "0010", "0020", "0030", "0040", "0050", "0060", "0070", "0080", "0090", "0100", "0110", "0120", "0130", "0140", "0150", "0160", "0170", "0180", "0190"];
@@ -63,6 +63,9 @@ for i = 1:num_of_test_cases
     sample_data(i, 1) = precision;
     sample_data(i, 2) = recall;
 
+    if i == 5
+        break
+    end
 end
 img = imfuse(current_relevant_sample, image_centers, 'blend');
 imshow(img);
@@ -87,5 +90,3 @@ fprintf("(Mean) Recall: %.2f%%\n", mean_recall * 100);
 fprintf("(Standard Deviation) Recall: %.2f%%\n", std_recall * 100);
 
 % fprintf("%.2f\n%.2f\n", sample_data(i,1)/sample_data(i,2), sample_data(i,1)/sample_data(i,3));
-
-full_test(@naive_detection_algorithm);

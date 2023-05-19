@@ -1,37 +1,16 @@
 function result = algorithm_centroid_parts(fish)
-    sobel_img = sobel(fish);
-    sobel_mask = imbinarize(sobel_img); % Otsu's algorithm
-    
-    % Pretty Good Region Representation
-    dilate_se = strel('square', 2);
-    dilated_image = imdilate(sobel_mask, dilate_se);
-    canny_img = edge(fish, 'canny');
-    dilated_blur = uint8(dilated_image) * 255;
-    dilated_blur = gaussian_blur(dilated_blur);
-    new_blur = imbinarize(dilated_blur);
-    
-    new_img = new_blur & canny_img;
-    
     % Adaptive Thresholding Test
     T = adaptthresh(fish, 0, "ForegroundPolarity", "dark");
-    adaptive_threshold_test = imbinarize(fish, T);
+    adaptive_thresholded_image = imbinarize(fish, T);
     
-    adaptive_threshold_test = ~adaptive_threshold_test;
-    
-    erode_se = strel('square', 2);
-    eroded_image = imerode(adaptive_threshold_test, erode_se);
-    
-    % adaptive, erode, AND region
-    adaptive_erode_region = new_blur & eroded_image;
+    adaptive_thresholded_image = ~adaptive_thresholded_image;
     
     dilate_body = strel('square', 2);
-    fish_body = imdilate(adaptive_threshold_test, dilate_body);
-    %props = regionprops(fish_body, 'Centroid');
-    props = regionprops(fish_body, fish, 'WeightedCentroid');
+    fish_body = imdilate(adaptive_thresholded_image, dilate_body);
 
     % 4 Connectivity Region Processing
-    fish_body_parts = adaptive_threshold_test;
-    [body, num_of_body] = bwlabel(fish_body,4);
+    fish_body_parts = adaptive_thresholded_image;
+    [body, ~] = bwlabel(fish_body,4);
     fish_body_parts = body .* fish_body_parts;
 
     [image_height, image_width] = size(fish);
@@ -43,4 +22,15 @@ function result = algorithm_centroid_parts(fish)
         mean_y = round(mean(y));
         result(mean_x, mean_y) = true;
     end
+
+%     % Convert result and adaptive_thresholded_image to RGB
+%     result_rgb = cat(3, result, zeros(image_height, image_width), zeros(image_height, image_width));
+%     adaptive_threshold_rgb = cat(3, adaptive_thresholded_image, adaptive_thresholded_image, adaptive_thresholded_image);
+%     
+%     % Overlay the red color on adaptive_thresholded_image using the result image as a mask
+%     overlaid_image = adaptive_threshold_rgb;
+%     overlaid_image = imfuse(overlaid_image, result_rgb, 'blend');
+%     
+%     % Display the overlaid image
+%     imshow(overlaid_image);
 end

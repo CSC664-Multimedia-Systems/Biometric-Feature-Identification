@@ -1,10 +1,84 @@
-fprintf("----- Weighted Centroid -----\n");
-full_test(@algorithm_weighted_centroid);
-fprintf("----- Centroid -----\n");
-full_test(@algorithm_centroid);
-fprintf("----- Centroid of the Body Parts -----\n");
-full_test(@algorithm_centroid_parts);
+% [Config] Single Test which applies the operation on single_image
+single_image = imread("../Data/frames_grey/0001.png");
 
+% VV Full Run Tests VV
+RUN_FULL_TEST = true; % Perform 20 tests that were handpicked
+RUN_WEIGHTED_CENTROID = true;
+RUN_CENTROID = true;
+RUN_CENTROID_PARTS = true;
+% ^^ end tests ^^
+
+t = algorithm_centroid(single_image);
+
+% VV Image Process VV
+SHOW_SOBEL_OPERATOR = false; % Apply Sobel's Algorithm
+SHOW_SOBEL_OPERATOR_MASK = false; % Apply Otsu's algorithm
+
+SHOW_CANNY_EDGE = false; % Matlab's Canny Edge Detection
+
+SHOW_LOG_EDGE = false; % Custom Laplacian of the Gaussian
+
+SHOW_ADAPTIVE_THRESHOLD = false; % Shows the stomach and the eyes
+SHOW_ADAPTIVE_THRESHOLD_DILATION = false; % Enlarge stomach and the eyes
+                                        % To represent as body
+% ^^ Image Process ^^
+
+% 20 Sample Test on Algorithms
+
+% [Config] Tests 20 manually sampled images with our algorithms
+if(RUN_FULL_TEST)
+    if(RUN_WEIGHTED_CENTROID)
+        fprintf("----- Weighted Centroid -----\n");
+        full_test(@algorithm_weighted_centroid);
+    end
+    if(RUN_CENTROID)
+        fprintf("----- Centroid -----\n");
+        full_test(@algorithm_centroid);
+    end
+    if(RUN_CENTROID_PARTS)
+        fprintf("----- Centroid of the Body Parts -----\n");
+        full_test(@algorithm_centroid_parts);
+    end
+end
+
+
+% Algorithms
+
+% Custom Sobel
+if(SHOW_SOBEL_OPERATOR)
+    if(SHOW_SOBEL_OPERATOR_MASK)
+        sobel_mask = imbinarize(sobel_img);
+        imshow(sobel_mask);
+    else
+        sobel_img = sobel(single_image);
+        imshow(sobel_img);
+    end
+end
+
+% Canny Edge Detection
+if(SHOW_CANNY_EDGE)
+    canny_edge = edge(single_image, "canny");
+    imshow(canny_edge);
+end
+
+if(SHOW_LOG_EDGE)
+    log_edge = LaplacianOfGaussian(single_image);
+    imshow(log_edge);
+end
+
+if(SHOW_ADAPTIVE_THRESHOLD)
+    % Adaptive Thresholding Test
+    first_order_statistic = adaptthresh(single_image, 0, "ForegroundPolarity", "dark");
+    adaptive_thresholded_image = imbinarize(single_image, first_order_statistic);
+    
+    adaptive_thresholded_image = ~adaptive_thresholded_image;
+    
+    if(SHOW_ADAPTIVE_THRESHOLD_DILATION)
+        dilate_body = strel('square', 2);
+        adaptive_thresholded_image = imdilate(adaptive_thresholded_image, dilate_body);
+    end
+    imshow(adaptive_thresholded_image);
+end
 
 % ----------------------------------------------
 % Coming up with algorithms

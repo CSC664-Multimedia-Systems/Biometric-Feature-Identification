@@ -1,16 +1,18 @@
+% Edit the config as you like
+
 % [Config] Single Test which applies the operation on single_image
 single_image = imread("../Data/frames_grey/0001.png");
 
-% VV Full Run Tests VV
+% VV Full Run Tests (Multiple is allowed) VV
+% Result: Displays test results in the console
 RUN_FULL_TEST = true; % Perform 20 tests that were handpicked
 RUN_WEIGHTED_CENTROID = true;
 RUN_CENTROID = true;
 RUN_CENTROID_PARTS = true;
 % ^^ end tests ^^
 
-t = algorithm_centroid(single_image);
-
-% VV Image Process VV
+% VV Image Process (Lower option takes priority) VV
+% Result: Display image in a new window
 SHOW_SOBEL_OPERATOR = false; % Apply Sobel's Algorithm
 SHOW_SOBEL_OPERATOR_MASK = false; % Apply Otsu's algorithm
 
